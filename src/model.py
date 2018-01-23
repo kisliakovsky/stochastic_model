@@ -20,10 +20,16 @@ class Model(ABC):
 
 class AltMongooseModel(Model):
 
-    def __init__(self, initial_population_size: int, a: float,
+    CAPACITY_GENERATOR_SEED = 47
+
+    def __init__(self, initial_population_size: int,
+                 r: float, a: float, k: float,
                  start: int, stop: int):
         self.__population_size = initial_population_size
+        self.__capacity_generator = RandomState(AltMongooseModel.CAPACITY_GENERATOR_SEED)
+        self.__r = r
         self.__a = a
+        self.__k = k
         self.__start = start
         self.__stop = stop
 
@@ -32,7 +38,10 @@ class AltMongooseModel(Model):
         numbers_of_individuals = [round(self.__population_size)]
         for i in range(self.__start + 1, self.__stop + 1):
             timeline.append(i)
-            new_population_size = self.__population_size - self.__a
+            l = self.__population_size * self.__r / self.__k
+            capacity = self.__capacity_generator.binomial(self.__population_size, l)
+            delta = self.__r * self.__population_size - capacity - self.__a
+            new_population_size = self.__population_size + delta
             self.__population_size = new_population_size
             numbers_of_individuals.append(round(self.__population_size))
         return timeline, numbers_of_individuals
