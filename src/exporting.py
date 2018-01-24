@@ -10,7 +10,6 @@ from src.model import Model
 from src.util import paths
 import seaborn
 
-
 RESULTS_DIR = Path("../results")
 paths.create_dir(RESULTS_DIR)
 
@@ -58,6 +57,11 @@ EXACT_X = [1979, 2000, 2011]
 EXACT_Y = [30, 6141, 169]
 ROUGH_X = [1980, 1983, 1990, 1993, 1999, 2001, 2003, 2009, 2010]
 ROUGH_Y = [50, 160, 900, 2500, 5800, 5400, 4500, 700, 400]
+CAPTURES_X = list(range(1979, 2012))
+CAPTURES_Y = [0, 0, 0, 0, 60, 60, 60, 60, 60, 60, 60,
+              60, 60, 60, 851, 827, 1144, 1314, 1628, 1356, 2282,
+              3884, 3375, 2199, 2572, 2529, 2585, 2705, 779, 941, 601,
+              311, 150]
 
 
 def save_complex_model_plot(model1: Model, model2: Model, model3: Model):
@@ -70,10 +74,11 @@ def save_complex_model_plot(model1: Model, model2: Model, model3: Model):
     x1, y1 = model1.run()
     x2, y2 = model2.run()
     x3, y3 = model3.run()
-    axes.plot(x1 + x2, y1 + y2, 'b', label='Proposed model')
-    axes.plot(x3, y3, 'r', label='Alternative model')
-    axes.scatter(ROUGH_X, ROUGH_Y, 7, 'orange', label='Inexact population size')
-    axes.scatter(EXACT_X, EXACT_Y, 7, 'green', label='Exact population size')
+    axes.plot(x1 + x2, y1 + y2, '#0000ff', label='Proposed model')
+    axes.plot(x3, y3, '#ff0000', label='Alternative model')
+    axes.plot(CAPTURES_X, CAPTURES_Y, '#339933', label='Captures')
+    axes.scatter(ROUGH_X, ROUGH_Y, 7, '#ff9900', label='Inexact population size')
+    axes.scatter(EXACT_X, EXACT_Y, 7, '#00ff00', label='Exact population size')
     axes.grid()
     axes.legend()
     path = Path(RESULTS_DIR, model1.get_name()).with_suffix(".png")

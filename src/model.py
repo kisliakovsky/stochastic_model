@@ -53,8 +53,6 @@ class AltMongooseModel(Model):
         return self.__population_size
 
 
-
-
 class MongooseModel(Model):
 
     CAPACITY_GENERATOR_SEED = 47
